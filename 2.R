@@ -1,17 +1,17 @@
 getwd()
-setwd("D:/Archivos/Cursos/BEDU/II.Programaci髇 y Estadistica con R/Postworks/files2") # Depende del usuario
+setwd("D:/Archivos/Cursos/BEDU/II.Programaci贸n y Estadistica con R/Postworks/files2") # Depende del usuario
 dir()
 
-#Importa los datos de soccer de las temporadas 2017/2018, 2018/2019 y 2019/2020 de la primera divisi髇 de la liga espa駉la a R, los datos los puedes encontrar en el siguiente enlace: https://www.football-data.co.uk/spainm.php
+#Importa los datos de soccer de las temporadas 2017/2018, 2018/2019 y 2019/2020 de la primera divisi贸n de la liga espa帽ola a R, los datos los puedes encontrar en el siguiente enlace: https://www.football-data.co.uk/spainm.php
 
 
 df17_20 <- lapply(dir(),read.csv)
 
-#Obten una mejor idea de las caracter韘ticas de los data frames al usar las funciones: str, head, View y summary
+#Obten una mejor idea de las caracter铆sticas de los data frames al usar las funciones: str, head, View y summary
 
 str(df17_20); head(df17_20); View(df17_20); summary(df17_20)
 
-#Con la funci髇 select del paquete dplyr selecciona 鷑icamente las columnas Date, HomeTeam, AwayTeam, FTHG, FTAG y FTR; esto para cada uno de los data frames. (Hint: tambi閚 puedes usar lapply).
+#Con la funci贸n select del paquete dplyr selecciona 煤nicamente las columnas Date, HomeTeam, AwayTeam, FTHG, FTAG y FTR; esto para cada uno de los data frames. (Hint: tambi茅n puedes usar lapply).
 library(dplyr)
 
 
@@ -20,13 +20,17 @@ library(dplyr)
 
 sel17_20 <- lapply(df17_20, select, Date, HomeTeam, AwayTeam, FTHG, FTAG, FTR )
 
-#Aseg鷕ate de que los elementos de las columnas correspondientes de los nuevos data frames sean del mismo tipo (Hint 1: usa as.Date y mutate para arreglar las fechas). 
+#Aseg煤rate de que los elementos de las columnas correspondientes de los nuevos data frames sean del mismo tipo (Hint 1: usa as.Date y mutate para arreglar las fechas). 
 
 
-mut17_20 <- lapply(sel17_20, mutate, Date = as.Date(Date, "%Y/%m/%d"))
+mut17_18 <- lapply(sel17_20[1], mutate, Date = as.Date(Date, "%d/%m/%y"))
+mut18_20 <- lapply(sel17_20[2:3], mutate, Date = as.Date(Date, "%d/%m/%Y"))
+mut17_20 <- c(mut17_18, mut18_20)
+
 head(mut17_20)
+View(mut17_20)
 
-#Con ayuda de la funci髇 rbind forma un 鷑ico data frame que contenga las seis columnas mencionadas en el punto 3 (Hint 2: la funci髇 do.call podr韆 ser utilizada).
+#Con ayuda de la funci贸n rbind forma un 煤nico data frame que contenga las seis columnas mencionadas en el punto 3 (Hint 2: la funci贸n do.call podr铆a ser utilizada).
 
 
 data17_20 <- do.call(rbind, mut17_20)
